@@ -25,6 +25,64 @@ int Logout();
 // File name for storing user data
 const string userDataFile = "users.txt";
 
+//Deposit Money Implementation;
+int depositMoney() {
+    if (!isLoggedIn) {
+        cout << "Please login first!" << endl;
+        return 0;
+    }
+    
+    double amount;
+    string email;
+    cout << "Enter the amount to deposit: ";
+    cin >> amount;
+    
+    if (amount <= 0) {
+        cout << "Invalid amount. Please enter a positive number." << endl;
+        return 0;
+    }
+
+    cout << "Enter your email to confirm: ";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    getline(cin, email);
+
+    // Read the current balance from transactions file
+    ifstream balanceFile(email + "_balance.txt");
+    double currentBalance = 0.0;
+    if (balanceFile.is_open()) {
+        balanceFile >> currentBalance;
+        balanceFile.close();
+    }
+
+    // Update balance
+    currentBalance += amount;
+
+    // Save the new balance
+    ofstream newBalanceFile(email + "_balance.txt");
+    if (newBalanceFile.is_open()) {
+        newBalanceFile << fixed << setprecision(2) << currentBalance;
+        newBalanceFile.close();
+
+        // Record the transaction
+        ofstream transactionFile(email + "_transactions.txt", ios::app);
+        if (transactionFile.is_open()) {
+            time_t now = time(0);
+            string date = ctime(&now);
+            transactionFile << date.substr(0, date.length()-1) << " - Deposit: +" 
+                          << fixed << setprecision(2) << amount 
+                          << " - Balance: " << currentBalance << endl;
+            transactionFile.close();
+        }
+
+        cout << "Successfully deposited $" << fixed << setprecision(2) << amount << endl;
+        cout << "Current balance: $" << currentBalance << endl;
+    } else {
+        cout << "Error processing deposit. Please try again." << endl;
+    }
+
+    return 0;
+}
+
 int main()
 {
     int choice;
