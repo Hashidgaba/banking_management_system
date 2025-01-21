@@ -5,16 +5,13 @@
 #include <limits>
 #include <vector>
 using namespace std;
-// initialize all global variables used in this proejct
-vector<string> Name;
-vector<string> Email;
-vector<string> password;
-vector<string> Number;
-bool isLoggedIn = false;
-// initialize all functions which is used in this project
+
+bool isLoggedIn = false; // Track login status
+
+// Function prototypes
 void Register();
 int Login();
-int forgotPass() {};
+int forgotPass();
 int depositMoney() {};
 int withdrawMoney() {};
 int balance() {};
@@ -25,6 +22,9 @@ int deleteAccount() {};
 int loanManagement() {};
 int Logout();
 
+// File name for storing user data
+const string userDataFile = "users.txt";
+
 int main()
 {
     int choice;
@@ -32,17 +32,17 @@ int main()
     {
         if (isLoggedIn)
         {
-            cout << "==========Banking Mnanagement System==========" << endl;
+            cout << "==========Banking Management System==========" << endl;
             cout << "1. Deposit Money" << endl;
             cout << "2. Withdraw Money" << endl;
             cout << "3. Check Account Balance" << endl;
             cout << "4. Account Statement" << endl;
             cout << "5. Money Transfer" << endl;
-            cout << "6. Delete My account" << endl;
-            cout << "7. Loan management" << endl;
+            cout << "6. Delete My Account" << endl;
+            cout << "7. Loan Management" << endl;
             cout << "8. Logout" << endl;
 
-            cout << "Enter any choice [1-8]" << endl;
+            cout << "Enter any choice [1-8]: ";
             cin >> choice;
 
             switch (choice)
@@ -80,14 +80,14 @@ int main()
                 break;
             }
         }
-        // if user is not loggedIn
         else
         {
             int userChoice;
-            cout << "First you have to Create Account" << endl;
+            cout << "First you have to Create an Account" << endl;
             cout << "1. Register" << endl;
-            cout << "2. Already Have an account, Login" << endl;
+            cout << "2. Already Have an Account? Login" << endl;
             cout << "3. Forgot Password" << endl;
+            cout << "Enter your choice: ";
             cin >> userChoice;
             if (userChoice == 1)
             {
@@ -106,6 +106,7 @@ int main()
 
     return 0;
 }
+
 // Register New user
 void Register()
 {
@@ -115,80 +116,124 @@ void Register()
     string userpassword;
     bool emailExist = false;
     bool numberExist = false;
-    cout << "For you Registeration we need your details" << endl;
-    cout << "Enter your Full Name" << endl;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear the input buffer completely
+
+    cout << "For your registration, we need your details" << endl;
+    cout << "Enter your Full Name: ";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear the input buffer
     getline(cin, fullName);
 
-    cout << "Enter your Email" << endl;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear the input buffer completely
+    cout << "Enter your Email: ";
     getline(cin, userEmail);
 
-    cout << "Enter your phone Number" << endl;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear the input buffer completely
+    cout << "Enter your phone Number: ";
     getline(cin, userphoneNumber);
 
-    cout << "Password" << endl;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear the input buffer completely
+    cout << "Enter your Password: ";
     getline(cin, userpassword);
 
-    for (int i = 0; i < Email.size(); i++)
-    {
-        if (Email[i] == userEmail)
-        {
-            cout << "This email is already exist" << endl;
-            emailExist = true;
+    ifstream inputFile("users.txt");
+    if (inputFile.is_open()) {
+        string fileName, fileEmail, filePhone, filePassword;
+        while (inputFile >> fileName >> fileEmail >> filePhone >> filePassword) {
+            if (fileEmail == userEmail) {
+                emailExist = true;
+            }
+            if (filePhone == userphoneNumber) {
+                numberExist = true;
+            }
         }
-
-        if (Number[i] == userphoneNumber)
-        {
-            cout << "This Number is already Exist" << endl;
-            numberExist = true;
-        }
+        inputFile.close();
     }
 
-    if (!emailExist && !numberExist)
-    {
-        Name.push_back(fullName);
-        Email.push_back(userEmail);
-        Number.push_back(userphoneNumber);
-        password.push_back(userpassword);
-        cout << "Congratulations you are successfully Register" << endl;
-        isLoggedIn = true;
+    if (emailExist) {
+        cout << "This email is already registered." << endl;
+    }
+    if (numberExist) {
+        cout << "This phone number is already registered." << endl;
+    }
+
+    if (!emailExist && !numberExist) {
+        ofstream outputFile("users.txt", ios::app);
+        if (outputFile.is_open()) {
+            outputFile << fullName << " " << userEmail << " " << userphoneNumber << " " << userpassword << "\n";
+            outputFile.close();
+            cout << "Congratulations, you are successfully registered!" << endl;
+            isLoggedIn = true;
+        } else {
+            cerr << "Error: Unable to open the file for writing." << endl;
+        }
     }
 }
 
-int Logout()
-{
-    cout << "Logout successfully" << endl;
-    isLoggedIn = false;
-}
 
+// Login
 int Login()
 {
     string loginEmail;
     string loginPass;
-    bool isUserexist = false;
-    cout << "Enter your Email" << endl;
+    bool isUserExist = false;
+
+    cout << "Enter your Email: ";
     cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear the input buffer completely
     getline(cin, loginEmail);
 
-    cout << "Enter your password" << endl;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear the input buffer completely
+    cout << "Enter your Password: ";
     getline(cin, loginPass);
 
-    for (int i = 0; i < Email.size(); i++)
+    ifstream inFile(userDataFile);
+    string fileFullName, fileEmail, filePhone, filePassword;
+
+    while (inFile >> fileFullName >> fileEmail >> filePhone >> filePassword)
     {
-        if (Email[i] == loginEmail && password[i] == loginPass)
+        if (fileEmail == loginEmail && filePassword == loginPass)
         {
-            isUserexist = true;
+            isUserExist = true;
+            break;
         }
     }
+    inFile.close();
 
-    if(isUserexist){
-        cout << "Succesfully Login" << endl;
+    if (isUserExist)
+    {
+        cout << "Successfully Logged In." << endl;
         isLoggedIn = true;
-    }else{
-        cout << "User not found" ;
     }
+    else
+    {
+        cout << "Invalid email or password." << endl;
+    }
+}
+
+// Forgot Password
+int forgotPass()
+{
+    string userEmail;
+    cout << "Enter your registered Email: ";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear the input buffer completely
+    getline(cin, userEmail);
+
+    ifstream inFile(userDataFile);
+    string fileFullName, fileEmail, filePhone, filePassword;
+
+    while (inFile >> fileFullName >> fileEmail >> filePhone >> filePassword)
+    {
+        if (fileEmail == userEmail)
+        {
+            cout << "Your password is: " << filePassword << endl;
+            inFile.close();
+            return 0;
+        }
+    }
+    inFile.close();
+
+    cout << "No account found with the given email." << endl;
+    return 0;
+}
+
+// Logout
+int Logout()
+{
+    cout << "Logout successfully." << endl;
+    isLoggedIn = false;
+    return 0;
 }
