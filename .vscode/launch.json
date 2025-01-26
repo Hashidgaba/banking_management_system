@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/Hashid gaba/Desktop/Hashid gaba/banking_management_system",
-      "program": "c:/Users/Hashid gaba/Desktop/Hashid gaba/banking_management_system/build/Debug/outDebug",
+      "cwd": "c:/Users/Hashid gaba/Desktop/Hashid gaba/banking management system",
+      "program": "c:/Users/Hashid gaba/Desktop/Hashid gaba/banking management system/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
