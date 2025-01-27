@@ -1,6 +1,7 @@
-gaba@gmail.com | Deposit | 2000.00 |  | Sun Jan 26 03:07:34 2025
-gaba@gmail.com | Withdraw | 1000.00 |  | Sun Jan 26 03:08:59 2025
-moiz@gmail.com | Deposit | 2000.00 |  | Sun Jan 26 03:10:03 2025
-moiz@gmail.com | Transfer | 500.00 | To: 03172072269 | Sun Jan 26 03:10:15 2025
-daniyal@gmail.com | Deposit | 4000.00 |  | Sun Jan 26 12:50:46 2025
-daniyal@gmail.com | Transfer | 2000.00 | To: 03172072269 | Sun Jan 26 12:51:05 2025
+gaba@gmail.com | Deposit | 5000.00 |  | Mon Jan 27 20:41:46 2025
+gaba@gmail.com | Withdraw | 3000.00 |  | Mon Jan 27 20:41:58 2025
+moiz@gmail.com | Deposit | 700000.00 |  | Mon Jan 27 20:46:52 2025
+hashid@gmail.com | Deposit | 500000.00 |  | Mon Jan 27 20:48:06 2025
+hashid@gmail.com | Transfer | 2000.00 | To: 03242513004 | Mon Jan 27 20:48:25 2025
+moiz@gmail.com | Transfer | 50000.00 | To: 03172072265 | Mon Jan 27 21:37:10 2025
+hashid@gmail.com | Transfer | 50000.00 | To: 03242513004 | Mon Jan 27 21:38:46 2025
