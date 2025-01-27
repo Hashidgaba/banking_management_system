@@ -293,7 +293,7 @@ void checkBalance()
 {
     cout << "\nYour current balance is: " << fixed << setprecision(2) << loggedInUserBalance << endl;
 }
-
+//this fucn is used to print all previous statements
 void accountStatement()
 {
     ifstream transactions("transactions.txt");
