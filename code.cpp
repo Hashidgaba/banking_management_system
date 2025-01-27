@@ -293,7 +293,7 @@ void checkBalance()
 {
     cout << "\nYour current balance is: " << fixed << setprecision(2) << loggedInUserBalance << endl;
 }
-//this fucn is used to print all previous statements
+//this fucn is used to print all previous statement
 void accountStatement()
 {
     ifstream transactions("transactions.txt");
@@ -308,6 +308,8 @@ void accountStatement()
     }
     transactions.close();
 }
+
+//this func is used to transfer money to another account using phone numebr
 void moneyTransfer()
 {
     string recipientPhone;
