@@ -84,6 +84,7 @@ int main()
             cout << "1. Register" << endl;
             cout << "2. Login" << endl;
             cout << "Enter your choice [1-2]: ";
+            
             cin >> choice;
 
             switch (choice)
