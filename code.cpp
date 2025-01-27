@@ -241,7 +241,7 @@ void Logout()
     isLoggedIn = false;
     cout << "You have been logged out." << endl;
 }
-
+//this func is used to add money
 void depositMoney()
 {
     double amount;
@@ -258,6 +258,7 @@ void depositMoney()
     updateBalance();
     logTransaction("Deposit", amount, "");
     cout << "Amount deposited successfully!" << endl;
+
 }
 
 void withdrawMoney()
