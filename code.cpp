@@ -84,7 +84,7 @@ int main()
             cout << "1. Register" << endl;
             cout << "2. Login" << endl;
             cout << "Enter your choice [1-2]: ";
-            
+
             cin >> choice;
 
             switch (choice)
@@ -108,8 +108,10 @@ void Register()
 {
     string fullname, email, phone, password, pin;
     cout << "\nEnter Full Name: ";
+    
     cin.ignore();
     getline(cin, fullname);
+
     if (fullname.length() < 4)
     {
         cout << "Full name must be at least 4 characters long!" << endl;
