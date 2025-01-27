@@ -16,7 +16,7 @@ char loggedInUserPass[20];
 char loggedInUserPin[5];
 double loggedInUserBalance = 0.0;
 
-// Function prototypes
+// declare all functions
 void Register();
 void Login();
 void Logout();
@@ -108,7 +108,7 @@ void Register()
 {
     string fullname, email, phone, password, pin;
     cout << "\nEnter Full Name: ";
-    
+
     cin.ignore();
     getline(cin, fullname);
 
