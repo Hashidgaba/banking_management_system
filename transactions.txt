@@ -19,3 +19,7 @@ atif1@gmail.com | Deposit | 6000.00 |  | Tue Jan 28 14:46:56 2025
 asim123@gmail.com | Deposit | 60000.00 |  | Tue Jan 28 20:25:09 2025
 asim123@gmail.com | Transfer | 5999.00 | To: 03555311231 | Tue Jan 28 20:25:51 2025
 asim123@gmail.com | Withdraw | 599.00 |  | Tue Jan 28 20:26:02 2025
+babar56@gmail.com | Deposit | 600000.00 |  | Tue Jan 28 20:34:43 2025
+hafeez@gmail.com | Deposit | 7000.00 |  | Tue Jan 28 21:21:10 2025
+hafeez@gmail.com | Withdraw | 345.00 |  | Tue Jan 28 21:21:21 2025
+akram@gmail.com | Deposit | 456.00 |  | Tue Jan 28 21:35:25 2025

@@ -5,6 +5,8 @@
 #include <cstring>
 #include <ctime>
 #include <iomanip>
+#include <sstream>
+#include <limits>
 
 using namespace std;
 
@@ -16,7 +18,6 @@ char loggedInUserPhoneNumber[20];
 char loggedInUserPass[20];
 char loggedInUserPin[5];
 double loggedInUserBalance = 0.0;
-
 
 // Declare all functions
 void Register();
@@ -43,24 +44,14 @@ int main() {
     while (true) {
         try {
             if (isLoggedIn) {
-            	
                 cout << "\n========== Banking Management System ==========" << endl;
-                
                 cout << "User: " << loggedInUserFullname << " | Email: " << loggedInUserEmail << " | Phone: " << loggedInUserPhoneNumber << endl;
-                
                 cout << "1. Deposit Money" << endl;
-                
                 cout << "2. Withdraw Money" << endl;
-                
                 cout << "3. Check Account Balance" << endl;
-                
                 cout << "4. Account Statement" << endl;
-                
                 cout << "5. Money Transfer" << endl;
-                
                 cout << "6. Logout" << endl;
-               
-
                 cout << "Enter your choice [1-6]: ";
                 cin >> choice;
 
@@ -80,7 +71,6 @@ int main() {
                     case 5:
                         moneyTransfer();
                         break;
-                    
                     case 6:
                         Logout();
                         break;
@@ -88,17 +78,11 @@ int main() {
                         throw invalid_argument("Invalid choice. Please try again.");
                 }
             } else {
-            	
                 cout << "\n========== Banking Management System ==========" << endl;
-                
                 cout << "1. Register" << endl;
-                
                 cout << "2. Login" << endl;
-                
-                cout<<	"3. Exist"	<< endl;
-                
+                cout << "3. Exit" << endl;
                 cout << "Enter your choice [1-3]: ";
-
                 cin >> choice;
 
                 switch (choice) {
@@ -109,22 +93,22 @@ int main() {
                         Login();
                         break;
                     case 3:
-   						 exit(0);
-    					break;
+                        exit(0);
+                        break;
                     default:
                         throw invalid_argument("Invalid choice. Please try again.");
                 }
             }
         } catch (const exception &e) {
             cerr << "Error: " << e.what() << endl;
-            cin.clear(); // Clear error flags
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
     }
     return 0;
 }
 
-// User register function
+// User register function - Fixed the file reading logic
 void Register() {
     try {
         string fullname, email, phone, password, pin;
@@ -148,33 +132,25 @@ void Register() {
             throw invalid_argument("Invalid phone number!");
         }
 
-        // Check if email or phone already exists
-        ifstream userData("userData.txt");
-        if (!userData) {
-            throw runtime_error("Error opening user data file!");
-        }
-
-        string fileFullname, fileEmail, filePhone, filePassword, filePin;
-        double fileBalance;
-        bool emailExists = false, phoneExists = false;
-
-        while (userData >> fileFullname >> fileEmail >> filePhone >> filePassword >> filePin >> fileBalance) {
-            if (fileEmail == email) {
-                emailExists = true;
+        // Check if email or phone already exists - Fixed logic
+        string line;
+        ifstream userCheck("userData.txt");
+        while (getline(userCheck, line)) {
+            string existingFullname, existingEmail, existingPhone, existingPassword, existingPin;
+            double existingBalance;
+            stringstream ss(line);
+            ss >> existingFullname >> existingEmail >> existingPhone >> existingPassword >> existingPin >> existingBalance;
+            
+            if (existingEmail == email) {
+                userCheck.close();
+                throw invalid_argument("Email already exists!");
             }
-            if (filePhone == phone) {
-                phoneExists = true;
+            if (existingPhone == phone) {
+                userCheck.close();
+                throw invalid_argument("Phone number already exists!");
             }
         }
-        userData.close();
-
-        if (emailExists) {
-            throw invalid_argument("Email already exists!");
-        }
-
-        if (phoneExists) {
-            throw invalid_argument("Phone number already exists!");
-        }
+        userCheck.close();
 
         cout << "Enter Password (minimum 5 characters): ";
         getline(cin, password);
@@ -191,7 +167,6 @@ void Register() {
         // Save new user details
         saveUserDetails(fullname, email, phone, password, pin);
 
-        // After successful registration, directly move to the main menu and show user details
         strcpy(loggedInUserFullname, fullname.c_str());
         strcpy(loggedInUserEmail, email.c_str());
         strcpy(loggedInUserPhoneNumber, phone.c_str());
@@ -206,7 +181,7 @@ void Register() {
     }
 }
 
-// Login function
+// Login function - Fixed
 void Login() {
     try {
         string email, password;
@@ -217,28 +192,28 @@ void Login() {
         cout << "Enter Password: ";
         getline(cin, password);
 
-        ifstream userData("userData.txt");
-        if (!userData) {
-            throw runtime_error("Error opening user data file!");
-        }
-
-        string fileFullname, fileEmail, filePhone, filePassword, filePin;
-        double fileBalance;
+        string line;
+        ifstream userCheck("userData.txt");
         bool found = false;
 
-        while (userData >> fileFullname >> fileEmail >> filePhone >> filePassword >> filePin >> fileBalance) {
+        while (getline(userCheck, line)) {
+            string fileFullname, fileEmail, filePhone, filePassword, filePin;
+            double fileBalance;
+            stringstream ss(line);
+            ss >> fileFullname >> fileEmail >> filePhone >> filePassword >> filePin >> fileBalance;
+
             if (fileEmail == email && filePassword == password) {
-                found = true;
                 strcpy(loggedInUserFullname, fileFullname.c_str());
                 strcpy(loggedInUserEmail, fileEmail.c_str());
                 strcpy(loggedInUserPhoneNumber, filePhone.c_str());
                 strcpy(loggedInUserPass, filePassword.c_str());
                 strcpy(loggedInUserPin, filePin.c_str());
                 loggedInUserBalance = fileBalance;
+                found = true;
                 break;
             }
         }
-        userData.close();
+        userCheck.close();
 
         if (!found) {
             throw invalid_argument("Invalid email or password!");
@@ -260,22 +235,23 @@ void Logout() {
 // Deposit money function
 void depositMoney() {
     try {
-    	
         double amount;
         cout << "\nEnter the amount to deposit: ";
-        	
         cin >> amount;
 
         if (amount <= 0) {
-            throw invalid_argument("Invalid amount!");
+            throw invalid_argument("Invalid amount! Amount must be greater than 0.");
         }
 
         loggedInUserBalance += amount;
         updateBalance();
         logTransaction("Deposit", amount, "");
-        cout << "Amount deposited successfully!" << endl;
+        cout << "Amount " << fixed << setprecision(2) << amount << " deposited successfully!" << endl;
+        cout << "Current balance: " << loggedInUserBalance << endl;
     } catch (const exception &e) {
         cerr << "Error: " << e.what() << endl;
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 }
 
@@ -285,16 +261,19 @@ void withdrawMoney() {
         double amount;
         string pin;
         cout << "\nEnter the amount to withdraw: ";
-        
         cin >> amount;
 
-        if (amount <= 0 || amount > loggedInUserBalance) {
-            throw invalid_argument("Invalid or insufficient balance!");
+        if (amount <= 0) {
+            throw invalid_argument("Invalid amount! Amount must be greater than 0.");
         }
 
+        if (amount > loggedInUserBalance) {
+            throw invalid_argument("Insufficient balance! Available balance: " + to_string(loggedInUserBalance));
+        }
+
+        cin.ignore();
         cout << "Enter your 4-digit PIN: ";
-        	
-        cin >> pin;
+        getline(cin, pin);
 
         if (pin != loggedInUserPin) {
             throw invalid_argument("Incorrect PIN!");
@@ -303,16 +282,18 @@ void withdrawMoney() {
         loggedInUserBalance -= amount;
         updateBalance();
         logTransaction("Withdraw", amount, "");
-        cout << "Amount withdrawn successfully!" << endl;
-        
+        cout << "Amount " << fixed << setprecision(2) << amount << " withdrawn successfully!" << endl;
+        cout << "Current balance: " << loggedInUserBalance << endl;
     } catch (const exception &e) {
         cerr << "Error: " << e.what() << endl;
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 }
 
 // Check balance function
 void checkBalance() {
-    cout << "\nYour current balance is: " << fixed << setprecision(2) << loggedInUserBalance << endl;
+    cout << "\nYour current balance is: $" << fixed << setprecision(2) << loggedInUserBalance << endl;
 }
 
 // Account statement function
@@ -320,16 +301,25 @@ void accountStatement() {
     try {
         ifstream transactions("transactions.txt");
         if (!transactions) {
-            throw runtime_error("Error opening transactions file!");
+            throw runtime_error("No transaction history found!");
         }
 
         string line;
-        cout << "\nAccount Statement:" << endl;
+        bool found = false;
+        cout << "\n==================== Account Statement ====================" << endl;
+        
         while (getline(transactions, line)) {
             if (line.find(loggedInUserEmail) != string::npos) {
                 cout << line << endl;
+                found = true;
             }
         }
+        
+        if (!found) {
+            cout << "No transactions found for this account." << endl;
+        }
+        
+        cout << "========================================================" << endl;
         transactions.close();
     } catch (const exception &e) {
         cerr << "Error: " << e.what() << endl;
@@ -339,28 +329,37 @@ void accountStatement() {
 // Money transfer function
 void moneyTransfer() {
     try {
-        string recipientPhone;
+        string recipientPhone, pin;
         double amount;
 
         cout << "\nEnter recipient's phone number: ";
         cin >> recipientPhone;
 
-        ifstream userData("userData.txt");
-        if (!userData) {
-            throw runtime_error("Error opening user data file!");
+        if (recipientPhone == loggedInUserPhoneNumber) {
+            throw invalid_argument("Cannot transfer money to your own account!");
         }
 
-        string fileFullname, fileEmail, filePhone, filePassword, filePin;
-        double fileBalance;
+        string line;
+        ifstream userCheck("userData.txt");
         bool recipientFound = false;
+        string recipientFullname, recipientEmail;
+        double recipientBalance = 0.0;
 
-        while (userData >> fileFullname >> fileEmail >> filePhone >> filePassword >> filePin >> fileBalance) {
+        while (getline(userCheck, line)) {
+            string fileFullname, fileEmail, filePhone, filePassword, filePin;
+            double fileBalance;
+            stringstream ss(line);
+            ss >> fileFullname >> fileEmail >> filePhone >> filePassword >> filePin >> fileBalance;
+
             if (filePhone == recipientPhone) {
                 recipientFound = true;
+                recipientFullname = fileFullname;
+                recipientEmail = fileEmail;
+                recipientBalance = fileBalance;
                 break;
             }
         }
-        userData.close();
+        userCheck.close();
 
         if (!recipientFound) {
             throw invalid_argument("Recipient not found!");
@@ -369,49 +368,77 @@ void moneyTransfer() {
         cout << "Enter amount to transfer: ";
         cin >> amount;
 
-        if (amount <= 0 || amount > loggedInUserBalance) {
-            throw invalid_argument("Invalid amount or insufficient balance!");
+        if (amount <= 0) {
+            throw invalid_argument("Invalid amount! Amount must be greater than 0.");
         }
 
-        // Deduct amount from sender and update recipient balance
-        double recipientBalance = fileBalance + amount;
-        loggedInUserBalance -= amount;
+        if (amount > loggedInUserBalance) {
+            throw invalid_argument("Insufficient balance! Available balance: " + to_string(loggedInUserBalance));
+        }
 
-        // Update the balances in the file
+        cin.ignore();
+        cout << "Enter your 4-digit PIN to confirm transfer: ";
+        getline(cin, pin);
+
+        if (pin != loggedInUserPin) {
+            throw invalid_argument("Incorrect PIN!");
+        }
+
+        // Update balances
+        loggedInUserBalance -= amount;
+        recipientBalance += amount;
+
+        // Update both accounts in the file
         ifstream inputFile("userData.txt");
         ofstream tempFile("temp.txt");
-        if (!inputFile || !tempFile) {
-            throw runtime_error("Error updating user data!");
-        }
+        
+        while (getline(inputFile, line)) {
+            string fileFullname, fileEmail, filePhone, filePassword, filePin;
+            double fileBalance;
+            stringstream ss(line);
+            ss >> fileFullname >> fileEmail >> filePhone >> filePassword >> filePin >> fileBalance;
 
-        while (inputFile >> fileFullname >> fileEmail >> filePhone >> filePassword >> filePin >> fileBalance) {
             if (filePhone == loggedInUserPhoneNumber) {
-                tempFile << fileFullname << " " << fileEmail << " " << filePhone << " " << filePassword << " "
-                         << filePin << " " << loggedInUserBalance << endl;
-            } else if (filePhone == recipientPhone) {
-                tempFile << fileFullname << " " << fileEmail << " " << filePhone << " " << filePassword << " "
-                         << filePin << " " << recipientBalance << endl;
-            } else {
-                tempFile << fileFullname << " " << fileEmail << " " << filePhone << " " << filePassword << " "
-                         << filePin << " " << fileBalance << endl;
+                tempFile << fileFullname << " " << fileEmail << " " << filePhone << " " 
+                        << filePassword << " " << filePin << " " << loggedInUserBalance << endl;
+            }
+            else if (filePhone == recipientPhone) {
+                tempFile << fileFullname << " " << fileEmail << " " << filePhone << " " 
+                        << filePassword << " " << filePin << " " << recipientBalance << endl;
+            }
+            else {
+                tempFile << line << endl;
             }
         }
+        
         inputFile.close();
         tempFile.close();
-
-        // Replace old file with updated file
         remove("userData.txt");
         rename("temp.txt", "userData.txt");
 
-        // Log the transaction
-        logTransaction("Transfer", amount, "To: " + recipientPhone);
-        cout << "Transaction successful! You transferred " << fixed << setprecision(2) << amount << " to " << recipientPhone << ".\n";
+        // Log transactions for both accounts
+        logTransaction("Transfer Sent", amount, "To: " + recipientPhone);
+        
+        // Log transaction for recipient
+        ofstream transactions("transactions.txt", ios::app);
+        time_t now = time(0);
+        char* dt = ctime(&now);
+        transactions << recipientEmail << " | Transfer Received | " << fixed << setprecision(2) 
+                    << amount << " | From: " << loggedInUserPhoneNumber << " | " << dt;
+        transactions.close();
+
+        cout << "Transfer successful!" << endl;
+        cout << "Amount " << fixed << setprecision(2) << amount << " transferred to " << recipientFullname << endl;
+        cout << "Your current balance: " << loggedInUserBalance << endl;
+
     } catch (const exception &e) {
         cerr << "Error: " << e.what() << endl;
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 }
 
-// Utility functions (unchanged)
+// Utility functions
 bool validateEmail(const string &email) {
     const regex pattern(R"((\w+)(\.{1}\w+)*@(\w+)(\.\w+)+)");
     return regex_match(email, pattern);
@@ -440,34 +467,37 @@ bool validatePin(const string &pin) {
 void saveUserDetails(const string &fullname, const string &email, const string &phone, const string &password, const string &pin) {
     ofstream userData("userData.txt", ios::app);
     if (!userData) {
-        throw runtime_error("Error saving user details!");
+        throw runtime_error("Error opening file for saving user details!");
     }
     userData << fullname << " " << email << " " << phone << " " << password << " " << pin << " 0.0" << endl;
     userData.close();
 }
 
 void updateBalance() {
+    string line;
     ifstream inputFile("userData.txt");
     ofstream tempFile("temp.txt");
+    
     if (!inputFile || !tempFile) {
         throw runtime_error("Error updating balance!");
     }
 
-    string fileFullname, fileEmail, filePhone, filePassword, filePin;
-    double fileBalance;
+    while (getline(inputFile, line)) {
+        string fileFullname, fileEmail, filePhone, filePassword, filePin;
+        double fileBalance;
+        stringstream ss(line);
+        ss >> fileFullname >> fileEmail >> filePhone >> filePassword >> filePin >> fileBalance;
 
-    while (inputFile >> fileFullname >> fileEmail >> filePhone >> filePassword >> filePin >> fileBalance) {
         if (filePhone == loggedInUserPhoneNumber) {
-            tempFile << fileFullname << " " << fileEmail << " " << filePhone << " " << filePassword << " "
-                     << filePin << " " << loggedInUserBalance << endl;
+            tempFile << fileFullname << " " << fileEmail << " " << filePhone << " " 
+                    << filePassword << " " << filePin << " " << loggedInUserBalance << endl;
         } else {
-            tempFile << fileFullname << " " << fileEmail << " " << filePhone << " " << filePassword << " "
-                     << filePin << " " << fileBalance << endl;
+            tempFile << line << endl;
         }
     }
+
     inputFile.close();
     tempFile.close();
-
     remove("userData.txt");
     rename("temp.txt", "userData.txt");
 }
@@ -478,9 +508,8 @@ void logTransaction(const string &type, double amount, const string &details) {
         throw runtime_error("Error logging transaction!");
     }
     time_t now = time(0);
-    char *dt = ctime(&now);
-    transactions << loggedInUserEmail << " | " << type << " | " << fixed << setprecision(2) << amount
-                 << " | " << details << " | " << dt;
+    char* dt = ctime(&now);
+    transactions << loggedInUserEmail << " | " << type << " | " << fixed << setprecision(2) 
+                << amount << " | " << details << " | " << dt;
     transactions.close();
 }
-
