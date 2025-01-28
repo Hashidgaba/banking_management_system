@@ -138,7 +138,7 @@ void Register()
     string fileFullname, fileEmail, filePhone, filePassword, filePin;
     double fileBalance;
     bool emailExists = false, phoneExists = false;
-
+//while loop for user data
     while (userData >> fileFullname >> fileEmail >> filePhone >> filePassword >> filePin >> fileBalance)
     {
         if (fileEmail == email)
