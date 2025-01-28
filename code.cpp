@@ -103,7 +103,7 @@ int main()
 
     return 0;
 }
-
+//user register function
 void Register()
 {
     string fullname, email, phone, password, pin;
