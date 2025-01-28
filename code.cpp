@@ -235,7 +235,7 @@ void Login() {
     }
 }
 
-
+//logout fun
 void Logout()
 {
     isLoggedIn = false;
@@ -260,7 +260,7 @@ void depositMoney()
     cout << "Amount deposited successfully!" << endl;
 
 }
-
+//for withdraw money
 void withdrawMoney()
 {
     double amount;
