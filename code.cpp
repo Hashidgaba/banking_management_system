@@ -425,7 +425,7 @@ void saveUserDetails(const string &fullname, const string &email, const string &
     }
     userData.close();
 }
-
+//update balance 
 void updateBalance() {
     ifstream inputFile("userData.txt");
     ofstream tempFile("temp.txt");
