@@ -448,7 +448,7 @@ void updateBalance() {
     remove("userData.txt");
     rename("temp.txt", "userData.txt");
 }
-
+//logout transcition
 void logTransaction(const string &type, double amount, const string &details) {
     ofstream transactions("transactions.txt", ios::app);
     if (transactions) {
