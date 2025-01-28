@@ -5,6 +5,7 @@
 #include <cstring>
 #include <ctime>
 #include <iomanip>
+
 using namespace std;
 
 // Declare global variables
@@ -15,6 +16,7 @@ char loggedInUserPhoneNumber[20];
 char loggedInUserPass[20];
 char loggedInUserPin[5];
 double loggedInUserBalance = 0.0;
+
 
 // Declare all functions
 void Register();
@@ -41,14 +43,23 @@ int main() {
     while (true) {
         try {
             if (isLoggedIn) {
+            	
                 cout << "\n========== Banking Management System ==========" << endl;
+                
                 cout << "User: " << loggedInUserFullname << " | Email: " << loggedInUserEmail << " | Phone: " << loggedInUserPhoneNumber << endl;
+                
                 cout << "1. Deposit Money" << endl;
+                
                 cout << "2. Withdraw Money" << endl;
+                
                 cout << "3. Check Account Balance" << endl;
+                
                 cout << "4. Account Statement" << endl;
+                
                 cout << "5. Money Transfer" << endl;
+                
                 cout << "6. Logout" << endl;
+               
 
                 cout << "Enter your choice [1-6]: ";
                 cin >> choice;
@@ -69,6 +80,7 @@ int main() {
                     case 5:
                         moneyTransfer();
                         break;
+                    
                     case 6:
                         Logout();
                         break;
@@ -76,10 +88,16 @@ int main() {
                         throw invalid_argument("Invalid choice. Please try again.");
                 }
             } else {
+            	
                 cout << "\n========== Banking Management System ==========" << endl;
+                
                 cout << "1. Register" << endl;
+                
                 cout << "2. Login" << endl;
-                cout << "Enter your choice [1-2]: ";
+                
+                cout<<	"3. Exist"	<< endl;
+                
+                cout << "Enter your choice [1-3]: ";
 
                 cin >> choice;
 
@@ -90,6 +108,9 @@ int main() {
                     case 2:
                         Login();
                         break;
+                    case 3:
+   						 exit(0);
+    					break;
                     default:
                         throw invalid_argument("Invalid choice. Please try again.");
                 }
@@ -239,8 +260,10 @@ void Logout() {
 // Deposit money function
 void depositMoney() {
     try {
+    	
         double amount;
         cout << "\nEnter the amount to deposit: ";
+        	
         cin >> amount;
 
         if (amount <= 0) {
@@ -262,6 +285,7 @@ void withdrawMoney() {
         double amount;
         string pin;
         cout << "\nEnter the amount to withdraw: ";
+        
         cin >> amount;
 
         if (amount <= 0 || amount > loggedInUserBalance) {
@@ -269,6 +293,7 @@ void withdrawMoney() {
         }
 
         cout << "Enter your 4-digit PIN: ";
+        	
         cin >> pin;
 
         if (pin != loggedInUserPin) {
@@ -279,6 +304,7 @@ void withdrawMoney() {
         updateBalance();
         logTransaction("Withdraw", amount, "");
         cout << "Amount withdrawn successfully!" << endl;
+        
     } catch (const exception &e) {
         cerr << "Error: " << e.what() << endl;
     }
@@ -457,3 +483,4 @@ void logTransaction(const string &type, double amount, const string &details) {
                  << " | " << details << " | " << dt;
     transactions.close();
 }
+
