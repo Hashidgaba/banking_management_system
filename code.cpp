@@ -34,7 +34,7 @@ bool validatePin(const string &pin);
 void saveUserDetails(const string &fullname, const string &email, const string &phone, const string &password, const string &pin);
 void updateBalance();
 void logTransaction(const string &type, double amount, const string &details);
-
+//main function
 int main()
 {
     int choice;
