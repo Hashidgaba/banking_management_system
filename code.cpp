@@ -3,7 +3,7 @@
 #include <string>
 #include <regex>       
 #include <cstring>     
-#include <ctime>       
+#include <ctime>    // strcpy function ke liye required header file   
 #include <iomanip>   
 #include <sstream>     // Provides string streams, enabling conversion between strings and other data types. It's useful for formatting and parsing strings.
 #include <limits>      // Defines limits for fundamental data types, such as the maximum and minimum values of integer or floating-point types.
