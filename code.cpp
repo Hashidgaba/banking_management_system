@@ -138,7 +138,7 @@ void Register()
     string fileFullname, fileEmail, filePhone, filePassword, filePin;
     double fileBalance;
     bool emailExists = false, phoneExists = false;
-//while loop for user data
+//while loop for user
     while (userData >> fileFullname >> fileEmail >> filePhone >> filePassword >> filePin >> fileBalance)
     {
         if (fileEmail == email)
@@ -197,7 +197,7 @@ void Register()
     cout << "Registration successful! You are now logged in." << endl;
 }
 
-
+//login function
 void Login() {
     string email, password;
     cout << "\nEnter Email: ";
