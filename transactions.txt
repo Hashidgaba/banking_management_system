@@ -24,3 +24,28 @@ hafeez@gmail.com | Deposit | 7000.00 |  | Tue Jan 28 21:21:10 2025
 hafeez@gmail.com | Withdraw | 345.00 |  | Tue Jan 28 21:21:21 2025
 akram@gmail.com | Deposit | 456.00 |  | Tue Jan 28 21:35:25 2025
 fayaz@gmail.com | Deposit | 70098.00 |  | Tue Jan 28 21:43:57 2025
+aqib@gmail.com | Deposit | 45000.00 |  | Wed Jan 29 08:23:19 2025
+aqib@gmail.com | Withdraw | 500.00 |  | Wed Jan 29 08:23:35 2025
+daniyal@gmail.com | Deposit | 50000.00 |  | Wed Jan 29 09:40:05 2025
+moiz@gmail.com | Withdraw | 5000.00 |  | Wed Jan 29 10:16:52 2025
+moiz@gmail.com | Deposit | 50000.00 |  | Wed Jan 29 10:23:38 2025
+waleed@gmail.com | Deposit | 6000.00 |  | Wed Jan 29 12:28:41 2025
+furqan@gmail.com | Deposit | 70000.00 |  | Wed Jan 29 13:31:58 2025
+furqan@gmail.com | Withdraw | 500.00 |  | Wed Jan 29 13:32:08 2025
+rasheed@gmail.com | Deposit | 500000.00 |  | Wed Jan 29 13:50:15 2025
+alex@gmail.com | Deposit | 60000000.00 |  | Wed Jan 29 13:52:24 2025
+farzeen@gmail.com | Deposit | 6000000.00 |  | Wed Jan 29 13:57:26 2025
+farzeen@gmail.com | Withdraw | 40000.00 |  | Wed Jan 29 13:57:57 2025
+moiz@gmail.com | Transfer Sent | 5000.00 | To: 03555311231 | Wed Jan 29 14:04:51 2025
+bulbul123@gmail.com | Transfer Received | 5000.00 | From: 03242513004 | Wed Jan 29 14:04:51 2025
+ikram@gmail.com | Deposit | 600000.00 |  | Wed Jan 29 14:15:11 2025
+hasan@gmail.com | Deposit | 6000000.00 |  | Thu Jan 30 07:57:55 2025
+hasan@gmail.com | Transfer Sent | 400000.00 | To: 03555311231 | Thu Jan 30 07:58:26 2025
+bulbul123@gmail.com | Transfer Received | 400000.00 | From: 03467854345 | Thu Jan 30 07:58:26 2025
+bulbul123@gmail.com | Transfer Sent | 600000.00 | To: 03467854345 | Thu Jan 30 08:03:30 2025
+hasan@gmail.com | Transfer Received | 600000.00 | From: 03555311231 | Thu Jan 30 08:03:30 2025
+iqbal@gmail.com | Deposit | 50000.00 |  | Thu Jan 30 08:17:16 2025
+iqbal@gmail.com | Withdraw | 7000.00 |  | Thu Jan 30 08:17:28 2025
+moiz@gmail.com | Deposit | 6000.00 |  | Thu Jan 30 09:21:26 2025
+moiz@gmail.com | Transfer Sent | 6000.00 | To: 03555311231 | Thu Jan 30 09:22:09 2025
+bulbul123@gmail.com | Transfer Received | 6000.00 | From: 03242513004 | Thu Jan 30 09:22:09 2025
