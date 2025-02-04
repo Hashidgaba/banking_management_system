@@ -50,24 +50,24 @@ int main()
             {
                 SetConsoleTextAttribute(hconsole, 14);
                 cout << "\n========== Banking Management System ==========" << endl;
-                Sleep(300);
+                Sleep(100);
                 SetConsoleTextAttribute(hconsole, 10);
                 cout << "User: " << loggedInUserFullname << " | Email: " << loggedInUserEmail << " | Phone: " << loggedInUserPhoneNumber << endl;
-                Sleep(300);
+                Sleep(100);
                 cout << "1. Deposit Money" << endl;
-                Sleep(300);
+                Sleep(100);
                 cout << "2. Withdraw Money" << endl;
-                Sleep(300);
+                Sleep(100);
                 cout << "3. Check Account Balance" << endl;
-                Sleep(300);
+                Sleep(100);
                 cout << "4. Account Statement" << endl;
-                Sleep(300);
+                Sleep(100);
                 cout << "5. Money Transfer" << endl;
-                Sleep(300);
+                Sleep(100);
                 cout << "6. Logout" << endl;
-                Sleep(300);
+                Sleep(100);
                 cout << "Enter your choice [1-6]: ";
-                Sleep(300);
+                Sleep(100);
                 cin >> choice;
 
                 switch (choice)
@@ -96,19 +96,19 @@ int main()
             }
             else
             {
-                Sleep(300);
+                Sleep(100);
                 SetConsoleTextAttribute(hconsole, 14);
                 cout << "\n========== Banking Management System ==========" << endl;
-                Sleep(300);
+                Sleep(100);
                 SetConsoleTextAttribute(hconsole, 10);
                 cout << "1. Register" << endl;
-                Sleep(300);
+                Sleep(100);
                 cout << "2. Login" << endl;
-                Sleep(300);
+                Sleep(100);
                 cout << "3. Exit" << endl;
-                Sleep(300);
+                Sleep(100);
                 cout << "Enter your choice [1-3]: ";
-                Sleep(300);
+                Sleep(100);
                 cin >> choice;
 
                 switch (choice)
